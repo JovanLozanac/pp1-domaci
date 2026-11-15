@@ -1,0 +1,58 @@
+                  n = 1
+                  adrniza = 2
+                  adrdozvoljenih = 3
+                  i = 4
+                  j = 5
+                  tmp1 = 6
+                  tmp2 = 7
+                  pocetak = 8
+                  kraj = 35
+                  ppobrada = 36
+                  petlja = 40
+                  krajzaelement = 52
+                  nedozvoljeni = 56
+                  brisanjeizniza = 60
+                  petljabrisanja = 61
+                  krajppobrade = 81
+    8: 7101       pocetak: IN n
+    9: 0608 0001  MOV tmp1, 1
+   11: 6618 0023  BGT tmp1, n, kraj
+   13: 0608 0064  MOV tmp1, 100
+   15: 6168 0023  BGT n, tmp1, kraj
+   17: 0208 0064  MOV adrniza, 100
+   19: 7A81       IN (adrniza), n
+   20: 0308 00C8  MOV adrdozvoljenih, 200
+   22: 7B04       IN (adrdozvoljenih), 4
+   23: 8A81       OUT (adrniza), n
+   24: 0408 0000  MOV i, 0
+   26: 0508 0000  MOV j, 0
+   28: D000 0024  JSR ppobrada
+   30: 0208 0064  MOV adrniza, 100
+   32: 8A81       OUT (adrniza), n
+   33: 5118 0008  BEQ n, n, pocetak
+   35: F000       kraj: STOP 
+   36: 5418 0051  ppobrada: BEQ i, n, krajppobrade
+   38: 0508 0000  MOV j, 0
+   40: 0608 0004  petlja: MOV tmp1, 4
+   42: 5568 003C  BEQ j, tmp1, brisanjeizniza
+   44: 5AB8 0034  BEQ (adrniza), (adrdozvoljenih), krajzaelement
+   46: 9330 0001  ADD adrdozvoljenih, adrdozvoljenih, 1
+   48: 9550 0001  ADD j, j, 1
+   50: 5558 0028  BEQ j, j, petlja
+   52: 9220 0001  krajzaelement: ADD adrniza, adrniza, 1
+   54: 9440 0001  ADD i, i, 1
+   56: 0308 00C8  nedozvoljeni: MOV adrdozvoljenih, 200
+   58: 5448 0024  BEQ i, i, ppobrada
+   60: 0620       brisanjeizniza: MOV tmp1, adrniza
+   61: A660 0064  petljabrisanja: SUB tmp1, tmp1, 100
+   63: A110 0001  SUB n, n, 1
+   65: 5618 0038  BEQ tmp1, n, nedozvoljeni
+   67: 9110 0001  ADD n, n, 1
+   69: 9660 0064  ADD tmp1, tmp1, 100
+   71: 0760       MOV tmp2, tmp1
+   72: 9770 0001  ADD tmp2, tmp2, 1
+   74: 0EF0       MOV (tmp1), (tmp2)
+   75: 9660 0001  ADD tmp1, tmp1, 1
+   77: 9770 0001  ADD tmp2, tmp2, 1
+   79: 5778 003D  BEQ tmp2, tmp2, petljabrisanja
+   81: E000       krajppobrade: RTS 
